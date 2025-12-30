@@ -1,0 +1,127 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+// Stock class
+class Stock {
+    String symbol;
+    double price;
+
+    Stock(String symbol, double price) {
+        this.symbol = symbol;
+        this.price = price;
+    }
+}
+
+// Portfolio class
+class Portfolio {
+    double balance;
+    ArrayList<Stock> ownedStocks = new ArrayList<>();
+
+    Portfolio(double balance) {
+        this.balance = balance;
+    }
+
+    void buyStock(Stock stock) {
+        if (balance >= stock.price) {
+            ownedStocks.add(stock);
+            balance -= stock.price;
+            System.out.println("Stock bought successfully!");
+        } else {
+            System.out.println("Insufficient balance!");
+        }
+    }
+
+    void sellStock(int index) {
+        if (index >= 0 && index < ownedStocks.size()) {
+            Stock soldStock = ownedStocks.remove(index);
+            balance += soldStock.price;
+            System.out.println("Stock sold successfully!");
+        } else {
+            System.out.println("Invalid stock selection!");
+        }
+    }
+
+    void showPortfolio() {
+        System.out.println("\n--- Your Portfolio ---");
+        if (ownedStocks.isEmpty()) {
+            System.out.println("No stocks owned.");
+        } else {
+            for (int i = 0; i < ownedStocks.size(); i++) {
+                System.out.println((i + 1) + ". " +
+                        ownedStocks.get(i).symbol + " - ₹" +
+                        ownedStocks.get(i).price);
+            }
+        }
+        System.out.println("Available Balance: ₹" + balance);
+    }
+}
+
+// MAIN CLASS (Important for online compiler)
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        ArrayList<Stock> marketStocks = new ArrayList<>();
+        marketStocks.add(new Stock("TCS", 3500));
+        marketStocks.add(new Stock("INFY", 1500));
+        marketStocks.add(new Stock("WIPRO", 450));
+        marketStocks.add(new Stock("HDFC", 2800));
+
+        Portfolio portfolio = new Portfolio(10000);
+
+        int choice;
+        do {
+            System.out.println("\n===== STOCK TRADING PLATFORM =====");
+            System.out.println("1. View Market Stocks");
+            System.out.println("2. Buy Stock");
+            System.out.println("3. Sell Stock");
+            System.out.println("4. View Portfolio");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+            choice = sc.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.println("\n--- Market Stocks ---");
+                    for (int i = 0; i < marketStocks.size(); i++) {
+                        System.out.println((i + 1) + ". " +
+                                marketStocks.get(i).symbol + " - ₹" +
+                                marketStocks.get(i).price);
+                    }
+                    break;
+
+                case 2:
+                    System.out.print("Enter stock number to buy: ");
+                    int buyIndex = sc.nextInt() - 1;
+                    if (buyIndex >= 0 && buyIndex < marketStocks.size()) {
+                        portfolio.buyStock(marketStocks.get(buyIndex));
+                    } else {
+                        System.out.println("Invalid stock choice!");
+                    }
+                    break;
+
+                case 3:
+                    portfolio.showPortfolio();
+                    System.out.print("Enter stock number to sell: ");
+                    int sellIndex = sc.nextInt() - 1;
+                    portfolio.sellStock(sellIndex);
+                    break;
+
+                case 4:
+                    portfolio.showPortfolio();
+                    break;
+
+                case 5:
+                    System.out.println("Thank you for using Stock Trading Platform!");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice!");
+            }
+
+        } while (choice != 5);
+
+        sc.close();
+    }
+}
