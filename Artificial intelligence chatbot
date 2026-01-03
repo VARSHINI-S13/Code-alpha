@@ -1,0 +1,62 @@
+import java.util.Scanner;
+
+// Chatbot logic class
+class ChatBot {
+
+    public String getResponse(String input) {
+        input = input.toLowerCase();
+
+        if (input.contains("hello") || input.contains("hi")) {
+            return "Hello! How can I help you?";
+        } 
+        else if (input.contains("how are you")) {
+            return "I'm doing great! Thanks for asking 😊";
+        } 
+        else if (input.contains("your name")) {
+            return "I am a Java-based AI Chatbot.";
+        } 
+        else if (input.contains("java")) {
+            return "Java is a powerful object-oriented programming language.";
+        } 
+        else if (input.contains("internship")) {
+            return "This internship helps you gain real-world programming experience.";
+        } 
+        else if (input.contains("help")) {
+            return "Sure! Ask me anything related to Java or this project.";
+        } 
+        else if (input.contains("bye") || input.contains("exit")) {
+            return "Goodbye! Have a nice day 👋";
+        } 
+        else {
+            return "Sorry, I didn't understand that. Please try again.";
+        }
+    }
+}
+
+// Main class
+public class Main {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+        ChatBot bot = new ChatBot();
+
+        System.out.println(" AI Chatbot Started");
+        System.out.println("Type 'bye' to exit");
+
+        while (true) {
+            System.out.print("\nYou: ");
+            String userInput = sc.nextLine();
+
+            String response = bot.getResponse(userInput);
+            System.out.println("Bot: " + response);
+
+            if (userInput.equalsIgnoreCase("bye") ||
+                userInput.equalsIgnoreCase("exit")) {
+                break;
+            }
+        }
+
+        sc.close();
+    }
+}
