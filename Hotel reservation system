@@ -1,0 +1,81 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Room {
+    int num;
+    String type;
+    int price;
+    boolean booked;
+
+    Room(int n, String t, int p) {
+        num = n;
+        type = t;
+        price = p;
+        booked = false;
+    }
+}
+
+class Hotel {
+    ArrayList<Room> list = new ArrayList<>();
+
+    Hotel() {
+        list.add(new Room(101, "Standard", 1500));
+        list.add(new Room(102, "Standard", 1500));
+        list.add(new Room(201, "Deluxe", 2500));
+        list.add(new Room(301, "Suite", 4000));
+    }
+
+    void available() {
+        for (Room r : list)
+            if (!r.booked)
+                System.out.println(r.num + " " + r.type + " "+ r.price);
+    }
+
+    void book(int n) {
+        for (Room r : list)
+            if (r.num == n && !r.booked) {
+                r.booked = true;
+                System.out.println("Booked. Paid: " + r.price);
+                return;
+            }
+        System.out.println("Room not available");
+    }
+
+    void cancel(int n) {
+        for (Room r : list)
+            if (r.num == n && r.booked) {
+                r.booked = false;
+                System.out.println("Cancelled");
+                return;
+            }
+        System.out.println("No booking found");
+    }
+
+    void bookedRooms() {
+        for (Room r : list)
+            if (r.booked)
+                System.out.println(r.num + " " + r.type);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+        Hotel h = new Hotel();
+        int c;
+
+        do {
+            System.out.println("\n 1.Available \n 2.Book \n 3.Cancel\n 4.View \n 5.Exit");
+            c = sc.nextInt();
+
+            if (c == 1) h.available();
+            else if (c == 2) h.book(sc.nextInt());
+            else if (c == 3) h.cancel(sc.nextInt());
+            else if (c == 4) h.bookedRooms();
+
+        } while (c != 5);
+
+        sc.close();
+    }
+}
